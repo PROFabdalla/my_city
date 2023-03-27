@@ -4,10 +4,11 @@ organization system
 #### people permissions
 1) Organization admin (super admin)
 2) Company Admin
-3) vendors
-4) Buyer
-5) visitor
-6) Guest
+3) facotry admin ( employee in company )
+4) Club admin  ( employee in company ) 
+5) vendors ( employee in company )
+6) sponser ( employee in company )
+7) Guest
 
 
 
@@ -18,12 +19,12 @@ organization system
 
 
 #### some details
-- My Organization has more Comapnies 
+- My city has more Comapnies 
 - Each Comapny has more Factories and Clubs
 - company make products with factories 
 - company can make events with clubs
 - companies contact with each other with companies chat
-- buyer and vendor can contact with each other with open chat (socket chat)
-- visitor can invest in factories by make request to company and company send this request to org admin to approve
+- guest and vendor can contact with each other with open chat (socket chat)
+- sponser can invest in factories by make request to company and company send this request to org admin to approve
 
 
