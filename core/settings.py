@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AUTH_USER_MODEL = "user_app.User"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -42,6 +44,10 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",
+    "djoser",
+    "knox",
+    # APPS
+    "user_app",
 ]
 
 MIDDLEWARE = [
@@ -134,9 +140,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
@@ -146,4 +150,23 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
     "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
     "DATETIME_INPUT_FORMAT": "%Y-%m-%d %H:%M:%S",
+}
+
+
+DJOSER = {
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": False,
+    "SERIALIZERS": {
+        "user": "user_app.serializers.UserSerializers",
+        "current_user": "user_app.serializers.UserSerializers",
+        "user_create": "user_app.serializers.CustomUserCreateSerializer",
+        # "user_delete": "accounts.serializers.UserDeleteSerializer",
+        # "password_reset": "accounts.serializers.SendEmailResetSerializer",
+    },
+}
+REST_KNOX = {
+    "USER_SERIALIZER": "user_app.serializers.UserSerializers",
+    "TOKEN_TTL": timedelta(hours=48),
 }
