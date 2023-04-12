@@ -36,6 +36,8 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    # --------------------- social login ---------------- #
+    path("accounts/", include("allauth.urls")),
     # ---------------------- APPS --------------------------- #
     path("auth/", include("user_app.urls")),
 ]

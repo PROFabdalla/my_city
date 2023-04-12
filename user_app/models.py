@@ -3,19 +3,19 @@ from django.db import models
 
 
 class OwnUserManager(BaseUserManager):
-    def create_user(self, name, email, password=None):
+    def create_user(self, username, email, password=None):
         if not email:
             raise ValueError("email is required")
 
-        user = self.model(email=self.normalize_email(email), name=name)
+        user = self.model(email=self.normalize_email(email), username=username)
 
         user.set_password(password)
         user.is_active = False
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name, email, password):
-        user = self.create_user(name=name, email=self.normalize_email(email))
+    def create_superuser(self, username, email, password):
+        user = self.create_user(username=username, email=self.normalize_email(email))
         user.set_password(password)
         user.is_admin = True
         user.is_active = True
@@ -32,7 +32,9 @@ class User(AbstractBaseUser):
         ("Guest", "Guest"),
     )
 
-    name = models.CharField(max_length=144, verbose_name="name", default="name")
+    username = models.CharField(
+        max_length=144, verbose_name="username", default="username"
+    )
     email = models.EmailField(max_length=144, verbose_name="email address", unique=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -43,10 +45,10 @@ class User(AbstractBaseUser):
     objects = OwnUserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name"]
+    REQUIRED_FIELDS = ["username", "role"]
 
     def __str__(self):
-        return self.name
+        return self.username
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

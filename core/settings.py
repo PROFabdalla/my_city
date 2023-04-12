@@ -41,14 +41,32 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # packages
+    "django.contrib.sites",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",
     "djoser",
     "knox",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     # APPS
     "user_app",
 ]
+
+SITE_ID = 2
+LOGIN_REDIRECT_URL = "/"
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {"access_type": "online"},
+    }
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -162,11 +180,16 @@ DJOSER = {
         "user": "user_app.serializers.UserSerializers",
         "current_user": "user_app.serializers.UserSerializers",
         "user_create": "user_app.serializers.CustomUserCreateSerializer",
-        # "user_delete": "accounts.serializers.UserDeleteSerializer",
-        # "password_reset": "accounts.serializers.SendEmailResetSerializer",
     },
 }
 REST_KNOX = {
     "USER_SERIALIZER": "user_app.serializers.UserSerializers",
     "TOKEN_TTL": timedelta(hours=48),
 }
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
