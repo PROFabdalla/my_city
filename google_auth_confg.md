@@ -38,9 +38,10 @@
     from --> https://console.cloud.google.com/
 
     - create_project
-        ![create_proj](https://github.com/PROFabdalla/my_city/blob/main/create_proj.jpg)
-        change project_name
-        click create
+
+![create_proj](https://github.com/PROFabdalla/my_city/blob/main/create_proj.jpg)
+change project_name
+click create
 
     - from sidebar choose "OAuth consent screen"
         choose:
@@ -50,7 +51,8 @@
         click save
 
     - from sidebar choose "Credentials"
-    ![create_proj](https://github.com/PROFabdalla/my_city/blob/main/Inkedclint_id.jpg)
+
+![create_proj](https://github.com/PROFabdalla/my_city/blob/main/Inkedclint_id.jpg)
 
         choose: application type
             web application
