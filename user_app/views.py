@@ -5,10 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from user_app.serializers import (
-    CustomTokenCreateSerializers,
-    CustomUserCreateSerializer,
-)
+from user_app.serializers import (CustomTokenCreateSerializers,
+                                  CustomUserCreateSerializer)
 
 User = get_user_model()
 

@@ -1,10 +1,7 @@
 from django.contrib.auth import authenticate, get_user_model
 from djoser.conf import settings
-from djoser.serializers import (
-    TokenCreateSerializer,
-    UserCreateSerializer,
-    UserSerializer,
-)
+from djoser.serializers import (TokenCreateSerializer, UserCreateSerializer,
+                                UserSerializer)
 from rest_framework.exceptions import AuthenticationFailed
 
 User = get_user_model()
