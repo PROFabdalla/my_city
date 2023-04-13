@@ -18,8 +18,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
-                                   SpectacularSwaggerView)
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+from allauth.socialaccount.providers.oauth2.urls import default_urlpatterns
+from allauth.socialaccount.providers.google.provider import GoogleProvider
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,10 +39,12 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
-    # --------------------- social login ---------------- #
-    path("accounts/", include("allauth.urls")),
     # ---------------------- APPS --------------------------- #
     path("auth/", include("user_app.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+# -------------- google login -------------------- #
+urlpatterns += default_urlpatterns(GoogleProvider)

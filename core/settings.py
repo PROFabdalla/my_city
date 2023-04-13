@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/auth/login/"
+SOCIALACCOUNT_STORE_TOKENS = True
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -83,7 +85,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

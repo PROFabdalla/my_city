@@ -1,12 +1,19 @@
 from django.contrib.auth import get_user_model, login
 from djoser.views import TokenCreateView, UserViewSet
-from knox.views import LoginView
+from knox.views import LoginView, LogoutAllView, LogoutView
+from allauth.account.views import LogoutView as SocialLogoutView
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from user_app.serializers import (CustomTokenCreateSerializers,
-                                  CustomUserCreateSerializer)
+from user_app.serializers import (
+    CustomTokenCreateSerializers,
+    CustomUserCreateSerializer,
+)
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
+from allauth.socialaccount.providers.google.provider import GoogleProvider
+
 
 User = get_user_model()
 
@@ -36,3 +43,17 @@ class CustomLoginView(LoginView, TokenCreateView):
             )
 
         return Response(response.data, status=status.HTTP_200_OK)
+
+
+# --------------------- logout -------------------#
+class LogoutView(LogoutView):
+    pass
+
+
+class LogoutAllView(LogoutAllView):
+    pass
+
+
+@receiver(post_save, sender=GoogleProvider)
+def make_qa(sender, instance, created, **kwargs):
+    print(sender, "-------------------------------")
