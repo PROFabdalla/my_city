@@ -39,7 +39,7 @@
 
     - create_project
 
-![create_proj](https://github.com/PROFabdalla/my_city/blob/main/create_proj.jpg)
+![create_proj](https://github.com/PROFabdalla/my_city/blob/main/data/images/create_proj.jpg)
 change project_name
 click create
 
@@ -52,7 +52,7 @@ click create
 
     - from sidebar choose "Credentials"
 
-![create_proj](https://github.com/PROFabdalla/my_city/blob/main/Inkedclint_id.jpg)
+![clint_id](https://github.com/PROFabdalla/my_city/blob/main/data/images/Inkedclint_id.jpg)
 
         choose: application type
             web application
