@@ -27,6 +27,7 @@ class OwnUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     USER_ROLE = (
         ("admin", "admin"),
+        ("employee", "employee"),
         ("vendors", "vendors"),
         ("sponsor", "sponsor"),
         ("Guest", "Guest"),

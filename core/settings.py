@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -51,8 +52,10 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_extensions",
     # APPS
     "user_app",
+    "public_apps",
 ]
 
 SITE_ID = 2
@@ -195,3 +198,24 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+
+# --- translation ---- #
+
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "Africa/Cairo"
+USE_I18N = True
+USE_L10N = True
+USE_TZ = False
+
+LANGUAGES = (
+    ("ar", "Arabic"),
+    ("en", "English"),
+)
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
+MODELTRANSLATION_LANGUAGES = ("en", "ar")
+MODELTRANSLATION_FALLBACK_LANGUAGES = ("en", "ar")
+
+# ---------- HASHID_FIELD -------- #
+HASHID_FIELD_SALT = "c6@-kv()vl3o5ig#fwuw78q02g!cgsvl_xx!=$*#mh7bv4p@!-"
