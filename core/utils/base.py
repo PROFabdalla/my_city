@@ -1,9 +1,8 @@
 from django.db import models
-from hashid_field import HashidAutoField
+from django.utils.translation import gettext_lazy as _
+from django_countries.serializers import CountryFieldMixin
 from hashid_field import HashidAutoField, HashidField
 from hashid_field.rest import HashidSerializerCharField
-from django_countries.serializers import CountryFieldMixin
-from django.utils.translation import gettext_lazy as _
 
 
 class BaseModel(models.Model):

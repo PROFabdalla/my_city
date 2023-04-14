@@ -1,5 +1,5 @@
-from public_apps.company.models import Company
 from core.utils import CustomFieldsModelSerializer
+from public_apps.company.models import Company
 
 
 class CompanySerializer(CustomFieldsModelSerializer):

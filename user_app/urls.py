@@ -1,12 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from user_app.views import (
-    CustomLoginView,
-    CustomUserViewSet,
-    SocialLogoutView,
-    LogoutView,
-    LogoutAllView,
-)
+
+from user_app.views import (CustomLoginView, CustomUserViewSet, LogoutAllView,
+                            LogoutView, SocialLogoutView)
 
 app_name = "user_app"
 

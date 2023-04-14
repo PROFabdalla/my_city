@@ -1,9 +1,10 @@
 from django.db import models
-from django_countries.fields import CountryField
-from public_apps.company.utils import PhoneNumberValidator, ZipCodeValidator
-from public_apps.company.managers import CompanyManager
 from django.utils.translation import gettext_lazy as _
+from django_countries.fields import CountryField
+
 from core.utils.base import BaseModel
+from public_apps.company.managers import CompanyManager
+from public_apps.company.utils import PhoneNumberValidator, ZipCodeValidator
 
 ROLES = (
     ("Admin", "Admin"),
