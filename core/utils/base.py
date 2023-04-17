@@ -3,6 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from django_countries.serializers import CountryFieldMixin
 from hashid_field import HashidAutoField, HashidField
 from hashid_field.rest import HashidSerializerCharField
+from rest_flex_fields import FlexFieldsModelSerializer
+from rest_framework import generics
 
 
 class BaseModel(models.Model):
@@ -24,5 +26,9 @@ class BaseModel(models.Model):
         ordering = ["-id"]
 
 
-class CustomFlexFieldsModelSerializer(CountryFieldMixin, FlexFieldsModelSerializer):
+class CustomModelSerializer(CountryFieldMixin, FlexFieldsModelSerializer):
     id = HashidSerializerCharField(source_field=HashidField(), read_only=True)
+
+
+class ListAPIView(generics.ListAPIView):
+    pass

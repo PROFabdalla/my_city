@@ -1,7 +1,4 @@
-from allauth.account.views import LogoutView as SocialLogoutView
-from allauth.socialaccount.providers.google.provider import GoogleProvider
 from django.contrib.auth import get_user_model, login
-from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from djoser.views import TokenCreateView, UserViewSet
 from knox.views import LoginView, LogoutAllView, LogoutView
@@ -9,8 +6,12 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from user_app.serializers import (CustomTokenCreateSerializers,
-                                  CustomUserCreateSerializer)
+from user_app.serializers import (
+    CustomTokenCreateSerializers,
+    CustomUserCreateSerializer,
+)
+from allauth.socialaccount.signals import pre_social_login
+from rest_framework import serializers
 
 User = get_user_model()
 
@@ -51,6 +52,15 @@ class LogoutAllView(LogoutAllView):
     pass
 
 
-@receiver(post_save, sender=GoogleProvider)
-def make_qa(sender, instance, created, **kwargs):
-    print(sender, "-------------------------------")
+# ------------- social login --------------- #
+
+
+@receiver(pre_social_login)
+def email_confirmed_(request, sociallogin, **kwargs):
+    try:
+        user = sociallogin.user
+        user.is_active = True
+        user.role = "Guest"
+        user.save()
+    except Exception as e:
+        raise serializers.ValidationError({"ERROR": e})

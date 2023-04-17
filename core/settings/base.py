@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-b#a!t^5^6xq-sr03_^^c@bk@_nhsi81ljiknyznpt^j#)&h(*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/login/"
-SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_STORE_TOKENS = False
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -181,6 +181,7 @@ DJOSER = {
     "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
     "ACTIVATION_URL": "#/activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": False,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     "SERIALIZERS": {
         "user": "user_app.serializers.UserSerializers",
         "current_user": "user_app.serializers.UserSerializers",

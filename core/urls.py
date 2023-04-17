@@ -1,11 +1,16 @@
 from allauth.socialaccount.providers.google.provider import GoogleProvider
+from allauth.account.views import AccountInactiveView
 from allauth.socialaccount.providers.oauth2.urls import default_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
-                                   SpectacularSwaggerView)
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -22,6 +27,9 @@ urlpatterns = [
     # ---------------------- APPS --------------------------- #
     path("auth/", include("user_app.urls")),
     path("api/", include("public_apps.urls")),
+    # --------------- social --------------------- #
+    path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
+    # path("accounts/", include("allauth.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
