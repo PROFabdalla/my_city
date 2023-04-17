@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from user_app.serializers import (
+from user_app.serializers.user import (
     CustomTokenCreateSerializers,
     CustomUserCreateSerializer,
 )

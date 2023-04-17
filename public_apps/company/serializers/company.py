@@ -1,12 +1,9 @@
 from core.utils.base import CustomModelSerializer
 from public_apps.company.models import Company
-from user_app.models import User
-
-
-class UserSerializer(CustomModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id", "username", "email")
+from public_apps.company.serializers.company_relations import (
+    CompanyEmployeesSerializer,
+    CompanyOwnerSerializer,
+)
 
 
 class CompanySerializer(CustomModelSerializer):
@@ -23,8 +20,10 @@ class CompanySerializer(CustomModelSerializer):
             "address_line",
             "zip",
             "role",
+            "employee",
         )
 
         expandable_fields = {
-            "owner": (UserSerializer, {"many": False}),
+            "owner": (CompanyOwnerSerializer, {"many": False}),
+            "employee": (CompanyEmployeesSerializer, {"many": True}),
         }

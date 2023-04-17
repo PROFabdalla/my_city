@@ -183,9 +183,9 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     "SERIALIZERS": {
-        "user": "user_app.serializers.UserSerializers",
-        "current_user": "user_app.serializers.UserSerializers",
-        "user_create": "user_app.serializers.CustomUserCreateSerializer",
+        "user": "user_app.serializers.user.UserSerializers",
+        "current_user": "user_app.serializers.user.UserSerializers",
+        "user_create": "user_app.serializers.user.CustomUserCreateSerializer",
     },
 }
 REST_KNOX = {

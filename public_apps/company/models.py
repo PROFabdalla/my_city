@@ -7,7 +7,7 @@ from public_apps.company.managers import CompanyManager
 from public_apps.company.utils import PhoneNumberValidator, ZipCodeValidator
 
 ROLES = (
-    ("Admin", "Admin"),
+    ("internal", "internal"),
     ("3rd Party", "3rd Party"),
 )
 
@@ -42,5 +42,4 @@ class Company(BaseModel):
         verbose_name=("Zip Code"),
     )
     role = models.CharField(choices=ROLES, default="3rd Party", max_length=25)
-
     objects = CompanyManager()

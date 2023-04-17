@@ -1,9 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from public_apps.company.models import Company
+from public_apps.employee.models import Employee
 
 
 class OwnUserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, role, password=None):
         if not email:
             raise ValueError("email is required")
 
@@ -19,20 +21,24 @@ class OwnUserManager(BaseUserManager):
         user.set_password(password)
         user.is_admin = True
         user.is_active = True
-        user.role = "admin"
+        user.role = "employee"
         user.save(using=self._db)
+
+        # ---------------- relation creation ------------------- #
+        company, created = Company.objects.get_or_create(
+            title="owners", owner=user, role="internal"
+        )
+        employee, created = Employee.objects.get_or_create(
+            company=company, user=user, role="admin", position="admin"
+        )
         return user
 
 
 class User(AbstractBaseUser):
     USER_ROLE = (
-        ("admin", "admin"),
         ("employee", "employee"),
-        ("vendors", "vendors"),
-        ("sponsor", "sponsor"),
-        ("Guest", "Guest"),
+        ("citizen", "citizen"),
     )
-
     username = models.CharField(
         max_length=144, verbose_name="username", default="username"
     )
@@ -40,13 +46,13 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     role = models.CharField(
-        max_length=50, choices=USER_ROLE, verbose_name=("User Role")
+        max_length=50, choices=USER_ROLE, verbose_name=("User Role"), default="citizen"
     )
 
     objects = OwnUserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "role"]
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.username
