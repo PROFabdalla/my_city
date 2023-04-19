@@ -8,7 +8,7 @@ from public_apps.company.utils import PhoneNumberValidator, ZipCodeValidator
 
 ROLES = (
     ("internal", "internal"),
-    ("3rd Party", "3rd Party"),
+    ("external", "external"),
 )
 
 

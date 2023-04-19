@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/login/"
-SOCIALACCOUNT_STORE_TOKENS = False
+SOCIALACCOUNT_STORE_TOKENS = True
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -151,7 +151,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = ["Marketplace/build/static/"]
+STATICFILES_DIRS = ["/my_city/static/"]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -185,11 +185,11 @@ DJOSER = {
     "SERIALIZERS": {
         "user": "user_app.serializers.user.UserSerializers",
         "current_user": "user_app.serializers.user.UserSerializers",
-        "user_create": "user_app.serializers.user.CustomUserCreateSerializer",
+        "user_create": "user_app.serializers.user.CustomUserCreateAsEmployeeSerializer",
     },
 }
 REST_KNOX = {
-    "USER_SERIALIZER": "user_app.serializers.UserSerializers",
+    "USER_SERIALIZER": "user_app.serializers.user.UserSerializers",
     "TOKEN_TTL": timedelta(hours=48),
 }
 

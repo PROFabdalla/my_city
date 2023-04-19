@@ -12,6 +12,7 @@ organization system
     modeltranslation        (model translations)
     django-hashid-field     (hash models id)
     django-extensions       (django commands)
+    django-cleanup          (delete un necessary images)
 
 #### people permissions
 
@@ -31,6 +32,21 @@ organization system
 3. guest app
 
 #### some details
+
+- when user register he can be (citizen , employee)
+  -- the citizen user = has no company , can login with google
+  -- the employee user = may be (company admin "or" employee in company)
+
+- if the employee create new company he choose : # NOTE will be auto a company admin in user permission
+  employee role: vendor - sponsor
+  company role: internal - external
+
+- if employee enter an existing company he choose will be:
+  -- normal employee
+  -- factory admin
+  -- club admin
+  -- vendors
+  -- sponsor
 
 - My city has more Companies
 - Each Company has more Factories and Clubs

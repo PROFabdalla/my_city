@@ -5,13 +5,14 @@ from public_apps.employee.models import Employee
 
 
 class OwnUserManager(BaseUserManager):
-    def create_user(self, username, email, role, password=None):
+    def create_user(self, username, email, password=None):
         if not email:
             raise ValueError("email is required")
 
         user = self.model(email=self.normalize_email(email), username=username)
 
         user.set_password(password)
+        user.is_admin = False
         user.is_active = False
         user.save(using=self._db)
         return user
@@ -20,6 +21,7 @@ class OwnUserManager(BaseUserManager):
         user = self.create_user(username=username, email=self.normalize_email(email))
         user.set_password(password)
         user.is_admin = True
+        user.is_company_admin = True
         user.is_active = True
         user.role = "employee"
         user.save(using=self._db)
@@ -45,6 +47,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=144, verbose_name="email address", unique=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_company_admin = models.BooleanField(default=False)
     role = models.CharField(
         max_length=50, choices=USER_ROLE, verbose_name=("User Role"), default="citizen"
     )

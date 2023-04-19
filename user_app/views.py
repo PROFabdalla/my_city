@@ -8,7 +8,8 @@ from rest_framework.response import Response
 
 from user_app.serializers.user import (
     CustomTokenCreateSerializers,
-    CustomUserCreateSerializer,
+    CustomUserCreateAsEmployeeSerializer,
+    CustomUserCreateCompanyAdminSerializer,
 )
 from allauth.socialaccount.signals import pre_social_login
 from rest_framework import serializers
@@ -20,7 +21,11 @@ User = get_user_model()
 class CustomUserViewSet(UserViewSet):
     def get_serializer_class(self):
         if self.action == "create":
-            return CustomUserCreateSerializer
+            data = self.request.data
+            if "company" in data:
+                company = data["company"]
+                if isinstance(company, dict):
+                    return CustomUserCreateCompanyAdminSerializer
         return super().get_serializer_class()
 
 

@@ -11,12 +11,15 @@ from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
 from public_apps.company.models import Company
 from public_apps.employee.models import Employee
-from user_app.serializers.company_relations import UserEmployeeSerializer
+from user_app.serializers.company_relations import (
+    UserEmployeeSerializer,
+    UserCompanySerializer,
+    UserEmployeeAdminSerializer,
+)
 from hashid_field import HashidField
 from hashid_field.rest import HashidSerializerCharField
-
-
-User = get_user_model()
+from core.utils.base import CustomModelSerializer
+from user_app.models import User
 
 
 # ------------------- user serializer ------------------ #
@@ -24,30 +27,27 @@ User = get_user_model()
 class UserSerializers(UserSerializer):
     class Meta:
         model = User
-        fields = (
-            "id",
-            "username",
-            "email",
-        )
+        fields = ("id", "username", "email", "is_admin", "is_company_admin", "role")
 
 
+# /////////////////////////////////////////////////////////////
 # ----------------------- register serializer -------------- #
-
-
-class CustomUserCreateSerializer(UserCreateSerializer):
+# /////////////////////////////////////////////////////////////
+# ------------------ if user in existing company ------------------- #
+class CustomUserCreateAsEmployeeSerializer(CustomModelSerializer, UserCreateSerializer):
     company = serializers.PrimaryKeyRelatedField(
-        queryset=Company.objects.all(),
         pk_field=HashidSerializerCharField(source_field=HashidField()),
+        queryset=Company.objects.all(),
         many=False,
-        required=True,
+        required=False,
     )
-    employee = UserEmployeeSerializer(many=False, required=True)
+    employee = UserEmployeeSerializer(many=False, required=False)
 
     class Meta:
         model = User
         fields = ("id", "password", "username", "email", "role", "company", "employee")
         extra_kwargs = {
-            "role": {"read_only": False, "required": True},
+            "role": {"read_only": True, "required": False},
         }
 
     def validate(self, attrs):
@@ -59,36 +59,70 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             raise serializers.ValidationError(
                 {"password": serializer_error["non_field_errors"]}
             )
-
         return attrs
 
     def create(self, validated_data):
-        company_data = validated_data.pop("company")
-        employee_data = validated_data.pop("employee")
-
-        # --------------------- company creation ---------------- #
-        if isinstance(company_data, dict):
-            create_company = True
-            company = Company.objects.create(**company_data)
-        else:
-            create_company = False
-            company = company_data
+        role = "citizen"
+        if "company" and "employee" in validated_data:
+            role = "employee"
+            employee_data = validated_data.pop("employee")
+            company_data = validated_data.pop("company")
 
         user = super().create(validated_data)
 
-        # ---------------------- employee creation ------------------- #
-        try:
+        # --------------------- company creation ---------------- #
+        if role == "employee":
+            user.role = "employee"
+            user.is_company_admin = False
+            user.save()
+            company = company_data
             Employee.objects.create(user=user, company=company, **employee_data)
-        except Exception as e:
-            raise serializers.ValidationError({"error": e})
-
-        # ----------- company fields --------- #
-        if create_company:
-            company.owner = user
-            company.save()
-        else:
-            user.company = company
         return user
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if instance.role == "employee":
+            rep["company"] = UserCompanySerializer(instance.employee.company).data
+        return rep
+
+
+# ----------- if user is company admin -------------#
+class CustomUserCreateCompanyAdminSerializer(
+    CustomModelSerializer, UserCreateSerializer
+):
+    employee = UserEmployeeAdminSerializer(many=False, required=False)
+    company = UserCompanySerializer(required=False, many=False)
+
+    class Meta:
+        model = User
+        fields = ("id", "password", "username", "email", "role", "company", "employee")
+        extra_kwargs = {
+            "role": {"read_only": True, "required": False},
+        }
+
+    def validate(self, attrs):
+        print(self.context["request"].data)
+        password = attrs.get("password")
+        try:
+            validate_password(password)
+        except exceptions.ValidationError as e:
+            serializer_error = serializers.as_serializer_error(e)
+            raise serializers.ValidationError(
+                {"password": serializer_error["non_field_errors"]}
+            )
+        return attrs
+
+    def create(self, validated_data):
+        employee_data = validated_data.pop("employee")
+        company_data = validated_data.pop("company")
+        if isinstance(company_data, dict):
+            user = super().create(validated_data)
+            company = Company.objects.create(owner=user, **company_data)
+            user.is_company_admin = True
+            user.role = "employee"
+            user.save()
+            Employee.objects.create(user=user, company=company, **employee_data)
+            return user
 
 
 # ------------------- login --------------------- #

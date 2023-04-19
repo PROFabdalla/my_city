@@ -6,9 +6,11 @@ class Employee(BaseModel):
     EMPLOYEE_ROLE = (
         ("admin", "admin"),
         # TODO employee must choose only this choices blow
-        ("employee", "employee"),
+        ("factory_admin", "factory_admin"),
+        ("club_admin", "club_admin"),
         ("vendors", "vendors"),
         ("sponsor", "sponsor"),
+        ("employee", "employee"),
     )
     user = models.OneToOneField(
         "user_app.User",
