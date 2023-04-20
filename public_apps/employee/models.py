@@ -1,5 +1,6 @@
 from django.db import models
 from core.utils.base import BaseModel
+from public_apps.company.utils import PhoneNumberValidator
 
 
 class Employee(BaseModel):
@@ -22,6 +23,11 @@ class Employee(BaseModel):
         "public_apps.Company",
         related_name="employee",
         on_delete=models.CASCADE,
+    )
+    phone_number = models.CharField(
+        max_length=12,
+        verbose_name=("Phone Number"),
+        validators=[PhoneNumberValidator],
     )
     role = models.CharField(choices=EMPLOYEE_ROLE, max_length=25)
     position = models.CharField(max_length=120)

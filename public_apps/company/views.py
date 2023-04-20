@@ -4,14 +4,11 @@ from public_apps.company.serializers.company import CompanySerializer
 from public_apps.company.filters import CompanyFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from django.db.models import Q
 
 
 class CompanyListView(generics.ListAPIView):
-    queryset = Company.objects.filter(role="3rd Party", active=True)
+    queryset = Company.objects.filter(Q(active=True), ~Q(title="owner"))
     serializer_class = CompanySerializer
     filterset_class = CompanyFilter
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        print(self.request.user, "--------------")
-        return super().get_queryset()
