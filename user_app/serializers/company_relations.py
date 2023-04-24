@@ -53,7 +53,7 @@ class UserEmployeeSerializer(CustomModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ("id", "user", "role", "company", "position")
+        fields = ("id", "user", "phone_number", "role", "company", "position")
         extra_kwargs = {
             "user": {"read_only": True, "required": False},
             "company": {"read_only": True, "required": False},
@@ -84,7 +84,7 @@ class UserEmployeeAdminSerializer(CustomModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ("id", "user", "role", "company", "position")
+        fields = ("id", "user", "phone_number", "role", "company", "position")
         extra_kwargs = {
             "user": {"read_only": True, "required": False},
             "company": {"read_only": True, "required": False},

@@ -8,31 +8,6 @@ django.setup()
 
 
 @pytest.fixture
-def employee_payload():
-    payload = {
-        "password": 1234.1234,
-        "username": "test_employee",
-        "email": "employee@test.test",
-        "company": {
-            "title": "test_employee",
-            "business_description": "indivitual",
-            "phone_number": "01143306714",
-            "city": "test_employee",
-            "country": "EG",
-            "address_line": "test_employee",
-            "zip": "12345",
-            "role": "internal",
-        },
-        "employee": {
-            "position": "test_employee",
-            "phone_number": "01001002030",
-            "role": "vendors",
-        },
-    }
-    return payload
-
-
-@pytest.fixture
 def citizen_payload():
     payload = {
         "password": 1234.1234,
@@ -40,4 +15,45 @@ def citizen_payload():
         "email": "citizen@test.test",
     }
 
+    return payload
+
+
+@pytest.fixture
+def company_admin_payload():
+    payload = dict(
+        password=1234.1234,
+        username="test_company_admin",
+        email="company_admin@test.test",
+        company=dict(
+            title="test_company_admin",
+            business_description="indivitual",
+            phone_number="01143306714",
+            city="test_company_admin",
+            country="EG",
+            address_line="test_company_admin",
+            zip="12345",
+            role="internal",
+        ),
+        employee=dict(
+            position="test_company_admin",
+            phone_number="01001002030",
+            role="vendors",
+        ),
+    )
+    return payload
+
+
+@pytest.fixture
+def employee_payload():
+    payload = dict(
+        password=1234.1234,
+        username="test_employee",
+        email="employee@test.test",
+        company="id",
+        employee=dict(
+            position="test_employee",
+            phone_number="01001002030",
+            role="vendors",
+        ),
+    )
     return payload

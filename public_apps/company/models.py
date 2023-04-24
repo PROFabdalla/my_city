@@ -42,4 +42,5 @@ class Company(BaseModel):
         verbose_name=("Zip Code"),
     )
     role = models.CharField(choices=ROLES, default="3rd Party", max_length=25)
+    active = models.BooleanField(default=False)
     objects = CompanyManager()

@@ -132,6 +132,7 @@ class CustomTokenCreateSerializers(TokenCreateSerializer):
         "no_credentials": "email and password are required",
         "not_registered": "Sorry, this is not a registered account.",
         "not_verified": "Please login with your email and verify your account to proceed.",
+        "company_not_verified": "Please verify your company to proceed, contact site admin .",
         "default_case": "something error try again !",
     }
 
@@ -159,6 +160,11 @@ class CustomTokenCreateSerializers(TokenCreateSerializer):
         if not self.user.is_active:
             error = "not_verified"
             raise AuthenticationFailed({"error": [self.error_messages[error]]})
+
+        if self.user.role == "employee":
+            if self.user.employee.company.active == False:
+                error = "company_not_verified"
+                raise AuthenticationFailed({"error": [self.error_messages[error]]})
 
         if self.user and self.user.is_active:
             attrs["user"] = self.user

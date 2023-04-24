@@ -5,8 +5,10 @@ from public_apps.employee.models import Employee
 
 
 @pytest.fixture
-@pytest.mark.django_db
-def create_test_user():
+@pytest.mark.django_db(transaction=True)
+def create_test_user(
+    db,
+):
     payload = {
         "email": "test.test@example.com",
         "username": "testuser",
@@ -20,8 +22,8 @@ def create_test_user():
 
 
 @pytest.fixture
-@pytest.mark.django_db
-def create_company(create_test_user):
+@pytest.mark.django_db(transaction=True)
+def create_company(db, create_test_user):
     payload = {
         "title": "test_company",
         "business_description": "indivitual",
@@ -31,6 +33,7 @@ def create_company(create_test_user):
         "address_line": "test_address",
         "zip": "12345",
         "role": "internal",
+        "active": True,
         "owner": create_test_user,
     }
     company, _ = Company.objects.get_or_create(title=payload["title"], defaults=payload)
@@ -38,8 +41,8 @@ def create_company(create_test_user):
 
 
 @pytest.fixture
-@pytest.mark.django_db
-def create_employee(create_test_user, create_company):
+@pytest.mark.django_db(transaction=True)
+def create_employee(db, create_test_user, create_company):
     payload = {
         "user": create_test_user,
         "company": create_company,
