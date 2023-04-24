@@ -13,6 +13,7 @@ organization system
     django-hashid-field     (hash models id)
     django-extensions       (django commands)
     django-cleanup          (delete un necessary images)
+    pytest                  (testing)
 
 #### people permissions
 
