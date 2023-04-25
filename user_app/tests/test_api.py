@@ -78,16 +78,6 @@ def test_company_admin_login(company_admin_payload):
         response0_data["company"]["phone_number"]
         == company_admin_payload["company"]["phone_number"]
     )
-    assert response0_data["company"]["city"] == company_admin_payload["company"]["city"]
-    assert (
-        response0_data["company"]["country"]
-        == company_admin_payload["company"]["country"]
-    )
-    assert (
-        response0_data["company"]["address_line"]
-        == company_admin_payload["company"]["address_line"]
-    )
-    assert response0_data["company"]["zip"] == company_admin_payload["company"]["zip"]
     assert response0_data["company"]["role"] == company_admin_payload["company"]["role"]
 
     # ---- user employee data ---- #
@@ -160,13 +150,6 @@ def test_employee_login(exist_company_for_employee, employee_payload):
         response0_data["company"]["phone_number"]
         == exist_company_for_employee.phone_number
     )
-    assert response0_data["company"]["city"] == exist_company_for_employee.city
-    assert response0_data["company"]["country"] == exist_company_for_employee.country
-    assert (
-        response0_data["company"]["address_line"]
-        == exist_company_for_employee.address_line
-    )
-    assert response0_data["company"]["zip"] == exist_company_for_employee.zip
     assert response0_data["company"]["role"] == exist_company_for_employee.role
 
     # ---- user employee data ---- #

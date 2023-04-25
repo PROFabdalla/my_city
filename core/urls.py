@@ -27,6 +27,7 @@ urlpatterns = [
     # ---------------------- APPS --------------------------- #
     path("auth/", include("user_app.urls")),
     path("api/", include("public_apps.urls")),
+    path("dashboard/", include("dashboard.urls")),
     # --------------- social --------------------- #
     path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
     # path("accounts/", include("allauth.urls")),

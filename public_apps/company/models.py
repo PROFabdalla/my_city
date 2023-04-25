@@ -25,13 +25,23 @@ class Company(BaseModel):
         verbose_name=("Phone Number"),
         validators=[PhoneNumberValidator],
     )
+    role = models.CharField(choices=ROLES, max_length=25)
+    objects = CompanyManager()
+
+    def __str__(self):
+        return self.title
+
+
+class CompanyAddresses(BaseModel):
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name="addresses"
+    )
     country = CountryField(
         blank_label="select country",
         verbose_name=("Country"),
     )
     city = models.CharField(max_length=40, verbose_name=_("City"))
     address_line = models.CharField(max_length=144, verbose_name=("address line"))
-
     zip = models.CharField(
         max_length=144,
         validators=[
@@ -41,6 +51,6 @@ class Company(BaseModel):
         blank=True,
         verbose_name=("Zip Code"),
     )
-    role = models.CharField(choices=ROLES, default="3rd Party", max_length=25)
-    active = models.BooleanField(default=False)
-    objects = CompanyManager()
+
+    def __str__(self):
+        return f"{self.country}/{self.city}"

@@ -14,10 +14,6 @@ class UserCompanySerializer(CustomModelSerializer):
             "owner",
             "business_description",
             "phone_number",
-            "country",
-            "city",
-            "address_line",
-            "zip",
             "role",
         )
         extra_kwargs = {

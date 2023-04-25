@@ -4,7 +4,7 @@ from public_apps.company.models import Company
 
 
 class CompanyTrans(TranslationOptions):
-    fields = ("title", "business_description", "city", "address_line")
+    fields = ("title", "business_description")
 
 
 translator.register(Company, CompanyTrans)

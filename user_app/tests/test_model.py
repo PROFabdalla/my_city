@@ -28,10 +28,6 @@ def create_company(db, create_test_user):
         "title": "test_company",
         "business_description": "indivitual",
         "phone_number": "01143306714",
-        "city": "test",
-        "country": "EG",
-        "address_line": "test_address",
-        "zip": "12345",
         "role": "internal",
         "active": True,
         "owner": create_test_user,
@@ -67,10 +63,6 @@ def test_user_model(create_test_user, create_company, create_employee):
     assert create_test_user.company.title == "test_company"
     assert create_test_user.company.business_description == "indivitual"
     assert create_test_user.company.phone_number == "01143306714"
-    assert create_test_user.company.city == "test"
-    assert create_test_user.company.country == "EG"
-    assert create_test_user.company.address_line == "test_address"
-    assert create_test_user.company.zip == "12345"
     assert create_test_user.company.role == "internal"
     assert create_test_user.employee.company == create_test_user.company
     assert create_test_user.employee.position == "vendors"

@@ -21,7 +21,7 @@ class Employee(BaseModel):
     )
     company = models.ForeignKey(
         "public_apps.Company",
-        related_name="employee",
+        related_name="employees",
         on_delete=models.CASCADE,
     )
     phone_number = models.CharField(

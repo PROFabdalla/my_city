@@ -28,10 +28,6 @@ def company_admin_payload():
             title="test_company_admin",
             business_description="indivitual",
             phone_number="01143306714",
-            city="test_company_admin",
-            country="EG",
-            address_line="test_company_admin",
-            zip="12345",
             role="internal",
         ),
         employee=dict(
