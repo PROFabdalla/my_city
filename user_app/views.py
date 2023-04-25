@@ -1,18 +1,15 @@
+from allauth.socialaccount.signals import pre_social_login
 from django.contrib.auth import get_user_model, login
 from django.dispatch.dispatcher import receiver
 from djoser.views import TokenCreateView, UserViewSet
 from knox.views import LoginView, LogoutAllView, LogoutView
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from user_app.serializers.user import (
-    CustomTokenCreateSerializers,
-    CustomUserCreateAsEmployeeSerializer,
-    CustomUserCreateCompanyAdminSerializer,
-)
-from allauth.socialaccount.signals import pre_social_login
-from rest_framework import serializers
+from user_app.serializers.user import (CustomTokenCreateSerializers,
+                                       CustomUserCreateAsEmployeeSerializer,
+                                       CustomUserCreateCompanyAdminSerializer)
 
 User = get_user_model()
 

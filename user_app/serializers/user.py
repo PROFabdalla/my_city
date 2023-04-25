@@ -1,25 +1,20 @@
 from django.contrib.auth import authenticate, get_user_model
-from djoser.conf import settings
-from djoser.serializers import (
-    TokenCreateSerializer,
-    UserCreateSerializer,
-    UserSerializer,
-)
-from rest_framework.exceptions import AuthenticationFailed
-from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
-from public_apps.company.models import Company
-from public_apps.employee.models import Employee
-from user_app.serializers.company_relations import (
-    UserEmployeeSerializer,
-    UserCompanySerializer,
-    UserEmployeeAdminSerializer,
-)
+from djoser.conf import settings
+from djoser.serializers import (TokenCreateSerializer, UserCreateSerializer,
+                                UserSerializer)
 from hashid_field import HashidField
 from hashid_field.rest import HashidSerializerCharField
+from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+
 from core.utils.base import CustomModelSerializer
+from public_apps.company.models import Company
+from public_apps.employee.models import Employee
 from user_app.models import User
+from user_app.serializers.company_relations import (
+    UserCompanySerializer, UserEmployeeAdminSerializer, UserEmployeeSerializer)
 
 
 # ------------------- user serializer ------------------ #

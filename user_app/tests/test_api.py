@@ -1,8 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
-from user_app.models import User
-from public_apps.company.models import Company
 
+from public_apps.company.models import Company
+from user_app.models import User
 
 clint = APIClient()
 

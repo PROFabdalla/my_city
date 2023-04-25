@@ -1,12 +1,11 @@
-from core.utils.base import CustomModelSerializer
-from public_apps.company.models import Company
-from public_apps.company.serializers.company_relations import (
-    CompanyEmployeesSerializer,
-    CompanyOwnerSerializer,
-)
 from hashid_field import HashidField
 from hashid_field.rest import HashidSerializerCharField
 from rest_framework import serializers
+
+from core.utils.base import CustomModelSerializer
+from public_apps.company.models import Company
+from public_apps.company.serializers.company_relations import (
+    CompanyEmployeesSerializer, CompanyOwnerSerializer)
 
 
 class CompanySerializer(CustomModelSerializer):

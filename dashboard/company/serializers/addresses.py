@@ -1,8 +1,9 @@
-from core.utils.base import CustomModelSerializer
-from public_apps.company.models import Company, CompanyAddresses
 from hashid_field import HashidField
 from hashid_field.rest import HashidSerializerCharField
 from rest_framework import serializers
+
+from core.utils.base import CustomModelSerializer
+from public_apps.company.models import Company, CompanyAddresses
 
 
 class DHB_CompanyAddressesSerializer(CustomModelSerializer):

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+
 from public_apps.company.models import Company
 from public_apps.employee.models import Employee
 

@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")

@@ -1,4 +1,5 @@
 from django.db import models
+
 from core.utils.base import BaseModel
 from public_apps.company.utils import PhoneNumberValidator
 

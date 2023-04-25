@@ -1,10 +1,8 @@
 from django.urls import path
-from dashboard.company.views import (
-    DHB_CompanyListView,
-    DHB_CompanyOverview,
-    DHB_CompanyAddressesListView,
-    DHB_CompanyAddressesOverview,
-)
+
+from dashboard.company.views import (DHB_CompanyAddressesListView,
+                                     DHB_CompanyAddressesOverview,
+                                     DHB_CompanyListView, DHB_CompanyOverview)
 
 urlpatterns = [
     # ---------------------- APPS --------------------------- #

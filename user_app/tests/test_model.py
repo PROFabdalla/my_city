@@ -1,7 +1,8 @@
 import pytest
-from user_app.models import User
+
 from public_apps.company.models import Company
 from public_apps.employee.models import Employee
+from user_app.models import User
 
 
 @pytest.fixture

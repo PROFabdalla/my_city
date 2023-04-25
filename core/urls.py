@@ -1,16 +1,12 @@
-from allauth.socialaccount.providers.google.provider import GoogleProvider
 from allauth.account.views import AccountInactiveView
+from allauth.socialaccount.providers.google.provider import GoogleProvider
 from allauth.socialaccount.providers.oauth2.urls import default_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
-
+from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
+                                   SpectacularSwaggerView)
 
 urlpatterns = [
     path("admin/", admin.site.urls),

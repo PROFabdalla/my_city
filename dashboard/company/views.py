@@ -1,12 +1,14 @@
-from rest_framework import generics
 from django.db.models import Q
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from user_app.permissions import IsEmployee, IsCompanyAdmin
+from rest_framework import generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from public_apps.company.models import Company, CompanyAddresses
-from public_apps.company.filters import CompanyFilter
+
+from dashboard.company.serializers.addresses import \
+    DHB_CompanyAddressesSerializer
 from dashboard.company.serializers.company import DHB_CompanySerializer
-from dashboard.company.serializers.addresses import DHB_CompanyAddressesSerializer
+from public_apps.company.filters import CompanyFilter
+from public_apps.company.models import Company, CompanyAddresses
+from user_app.permissions import IsCompanyAdmin, IsEmployee
 
 
 class DHB_CompanyListView(generics.ListAPIView):
