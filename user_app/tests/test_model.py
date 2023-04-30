@@ -16,7 +16,6 @@ def create_test_user(
         "password": "secret123",
         "role": "employee",
         "is_active": True,
-        "is_company_admin": True,
     }
     user, _ = User.objects.get_or_create(email=payload["email"], defaults=payload)
     return user
@@ -59,7 +58,7 @@ def test_user_model(create_test_user, create_company, create_employee):
     assert create_test_user.is_active == True
     assert create_test_user.is_admin == False
     assert create_test_user.is_staff == False
-    assert create_test_user.is_company_admin == True
+    assert create_test_user.employee.permissions.is_company_admin == True
     assert create_test_user.role == "employee"
     assert create_test_user.company.title == "test_company"
     assert create_test_user.company.business_description == "indivitual"

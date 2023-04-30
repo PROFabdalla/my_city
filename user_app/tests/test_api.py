@@ -37,7 +37,9 @@ def test_citizen_login(citizen_payload):
     assert response1_data["user"]["email"] == citizen_payload["email"]
     assert response1_data["user"]["role"] == "citizen"
     assert response1_data["user"]["is_admin"] == False
-    assert response1_data["user"]["is_company_admin"] == False
+    assert (
+        response1_data["user"]["employee"]["permissions"]["is_company_admin"] == False
+    )
 
 
 # /////////////////////////////////////////////////////////
@@ -169,4 +171,6 @@ def test_employee_login(exist_company_for_employee, employee_payload):
     assert response1_data["user"]["email"] == employee_payload["email"]
     assert response1_data["user"]["role"] == "employee"
     assert response1_data["user"]["is_admin"] == False
-    assert response1_data["user"]["is_company_admin"] == False
+    assert (
+        response1_data["user"]["employee"]["permissions"]["is_company_admin"] == False
+    )

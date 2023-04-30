@@ -8,7 +8,7 @@ class IsOwner(BasePermission):
 
 class IsCompanyAdmin(BasePermission):
     def has_permission(self, request, view):
-        return bool(request.user.is_company_admin)
+        return bool(request.user.employee.permissions.is_company_admin)
 
 
 class IsCitizen(BasePermission):

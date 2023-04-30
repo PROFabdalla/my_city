@@ -2,6 +2,7 @@ from django.db import models
 
 from core.utils.base import BaseModel
 from public_apps.company.utils import PhoneNumberValidator
+from django.utils.translation import gettext_lazy as _
 
 
 class Employee(BaseModel):
@@ -35,3 +36,16 @@ class Employee(BaseModel):
 
     def __str__(self):
         return self.user.username
+
+
+class Permissions(BaseModel):
+    employee = models.OneToOneField(
+        Employee,
+        on_delete=models.CASCADE,
+        verbose_name=_("Employee"),
+        related_name="permissions",
+    )
+    company_admin = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.employee.user.username)

@@ -5,8 +5,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
-                                   SpectacularSwaggerView)
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -24,6 +27,7 @@ urlpatterns = [
     path("auth/", include("user_app.urls")),
     path("api/", include("public_apps.urls")),
     path("dashboard/", include("dashboard.urls")),
+    path("administrator/", include("site_admin.urls")),
     # --------------- social --------------------- #
     path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
     # path("accounts/", include("allauth.urls")),

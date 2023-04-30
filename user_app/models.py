@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 from public_apps.company.models import Company
-from public_apps.employee.models import Employee
+from public_apps.employee.models import Employee, Permissions
 
 
 class OwnUserManager(BaseUserManager):
@@ -22,7 +22,6 @@ class OwnUserManager(BaseUserManager):
         user = self.create_user(username=username, email=self.normalize_email(email))
         user.set_password(password)
         user.is_admin = True
-        user.is_company_admin = True
         user.is_active = True
         user.role = "employee"
         user.save(using=self._db)
@@ -33,6 +32,9 @@ class OwnUserManager(BaseUserManager):
         )
         employee, created = Employee.objects.get_or_create(
             company=company, user=user, role="admin", position="admin"
+        )
+        permissions, created = Permissions.objects.get_or_create(
+            employee=employee, company_admin=True
         )
         return user
 
@@ -48,7 +50,6 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=144, verbose_name="email address", unique=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    is_company_admin = models.BooleanField(default=False)
     role = models.CharField(
         max_length=50, choices=USER_ROLE, verbose_name=("User Role"), default="citizen"
     )

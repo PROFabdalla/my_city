@@ -2,8 +2,11 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
 from djoser.conf import settings
-from djoser.serializers import (TokenCreateSerializer, UserCreateSerializer,
-                                UserSerializer)
+from djoser.serializers import (
+    TokenCreateSerializer,
+    UserCreateSerializer,
+    UserSerializer,
+)
 from hashid_field import HashidField
 from hashid_field.rest import HashidSerializerCharField
 from rest_framework import serializers
@@ -11,10 +14,13 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from core.utils.base import CustomModelSerializer
 from public_apps.company.models import Company
-from public_apps.employee.models import Employee
+from public_apps.employee.models import Employee, Permissions
 from user_app.models import User
 from user_app.serializers.company_relations import (
-    UserCompanySerializer, UserEmployeeAdminSerializer, UserEmployeeSerializer)
+    UserCompanySerializer,
+    UserEmployeeAdminSerializer,
+    UserEmployeeSerializer,
+)
 
 
 # ------------------- user serializer ------------------ #
@@ -22,7 +28,7 @@ from user_app.serializers.company_relations import (
 class UserSerializers(UserSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "is_admin", "is_company_admin", "role")
+        fields = ("id", "username", "email", "is_admin", "role")
 
 
 # /////////////////////////////////////////////////////////////
@@ -65,13 +71,15 @@ class CustomUserCreateAsEmployeeSerializer(CustomModelSerializer, UserCreateSeri
 
         user = super().create(validated_data)
 
-        # --------------------- company creation ---------------- #
+        # --------------------- employee creation ---------------- #
         if role == "employee":
             user.role = "employee"
-            user.is_company_admin = False
             user.save()
             company = company_data
-            Employee.objects.create(user=user, company=company, **employee_data)
+            employee = Employee.objects.create(
+                user=user, company=company, **employee_data
+            )
+            Permissions.objects.create(employee=employee, company_admin=False)
         return user
 
     def to_representation(self, instance):
@@ -113,10 +121,12 @@ class CustomUserCreateCompanyAdminSerializer(
         if isinstance(company_data, dict):
             user = super().create(validated_data)
             company = Company.objects.create(owner=user, **company_data)
-            user.is_company_admin = True
             user.role = "employee"
             user.save()
-            Employee.objects.create(user=user, company=company, **employee_data)
+            employee = Employee.objects.create(
+                user=user, company=company, **employee_data
+            )
+            Permissions.objects.create(employee=employee, company_admin=True)
             return user
 
 
