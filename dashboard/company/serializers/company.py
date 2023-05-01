@@ -4,9 +4,12 @@ from rest_framework import serializers
 
 from core.utils.base import CustomModelSerializer
 from dashboard.company.serializers.company_relations import (
-    CompanyAddressesSerializer, CompanyEmployeesSerializer,
-    CompanyOwnerSerializer)
-from public_apps.company.models import Company, CompanyAddresses
+    DHB_CompanyAddressesSerializer,
+    DHB_CompanyEmployeesSerializer,
+    DHB_CompanyOwnerSerializer,
+)
+from public_apps.company.models import Company
+from public_apps.addresses.models import Addresses
 
 
 class DHB_CompanySerializer(CustomModelSerializer):
@@ -23,7 +26,7 @@ class DHB_CompanySerializer(CustomModelSerializer):
         read_only=True,
     )
     addresses = serializers.PrimaryKeyRelatedField(
-        queryset=CompanyAddresses.objects.all(),
+        queryset=Addresses.objects.all(),
         pk_field=HashidSerializerCharField(source_field=HashidField()),
         many=True,
         required=False,
@@ -43,7 +46,7 @@ class DHB_CompanySerializer(CustomModelSerializer):
         )
 
         expandable_fields = {
-            "owner": (CompanyOwnerSerializer, {"many": False}),
-            "employees": (CompanyEmployeesSerializer, {"many": True}),
-            "addresses": (CompanyAddressesSerializer, {"many": True}),
+            "owner": (DHB_CompanyOwnerSerializer, {"many": False}),
+            "employees": (DHB_CompanyEmployeesSerializer, {"many": True}),
+            "addresses": (DHB_CompanyAddressesSerializer, {"many": True}),
         }

@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from public_apps.company.models import Company, CompanyAddresses
+from public_apps.company.models import Company
+from public_apps.addresses.models import Addresses
 from public_apps.employee.models import Employee
 
 
 class CompanyAddressesAdminInline(admin.StackedInline):
-    model = CompanyAddresses
+    model = Addresses
     extra = 0
 
 
@@ -19,9 +20,4 @@ class CompanyAdmin(admin.ModelAdmin):
     inlines = [CompanyAddressesAdminInline, EmployeeAdminInline]
 
 
-class CompanyAddressesAdmin(admin.ModelAdmin):
-    list_display = ["id", "company", "country", "city", "address_line", "zip"]
-
-
 admin.site.register(Company, CompanyAdmin)
-admin.site.register(CompanyAddresses, CompanyAddressesAdmin)

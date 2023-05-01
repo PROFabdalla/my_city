@@ -3,7 +3,8 @@ from hashid_field.rest import HashidSerializerCharField
 from rest_framework import serializers
 
 from core.utils.base import CustomModelSerializer
-from public_apps.company.models import Company, CompanyAddresses
+from public_apps.company.models import Company
+from public_apps.addresses.models import Addresses
 
 
 class DHB_CompanyAddressesSerializer(CustomModelSerializer):
@@ -15,7 +16,7 @@ class DHB_CompanyAddressesSerializer(CustomModelSerializer):
     )
 
     class Meta:
-        model = CompanyAddresses
+        model = Addresses
         fields = (
             "id",
             "company",

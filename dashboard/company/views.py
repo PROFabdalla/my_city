@@ -3,11 +3,11 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from dashboard.company.serializers.addresses import \
-    DHB_CompanyAddressesSerializer
+from dashboard.company.serializers.addresses import DHB_CompanyAddressesSerializer
 from dashboard.company.serializers.company import DHB_CompanySerializer
 from public_apps.company.filters import CompanyFilter
-from public_apps.company.models import Company, CompanyAddresses
+from public_apps.company.models import Company
+from public_apps.addresses.models import Addresses
 from user_app.permissions import IsCompanyAdmin, IsEmployee
 
 
@@ -68,7 +68,7 @@ class DHB_CompanyAddressesListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = CompanyAddresses.objects.filter(company=user.employee.company)
+        queryset = Addresses.objects.filter(company=user.employee.company)
         return queryset
 
 
@@ -86,7 +86,7 @@ class DHB_CompanyAddressesOverview(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = CompanyAddresses.objects.filter(company=user.employee.company)
+        queryset = Addresses.objects.filter(company=user.employee.company)
         return queryset
 
     def update(self, request, *args, **kwargs):

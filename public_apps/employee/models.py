@@ -1,7 +1,7 @@
 from django.db import models
 
 from core.utils.base import BaseModel
-from public_apps.company.utils import PhoneNumberValidator
+from core.validators import PhoneNumberValidator
 from django.utils.translation import gettext_lazy as _
 
 
