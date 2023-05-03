@@ -25,7 +25,7 @@ from user_app.serializers.company_relations import (
 
 # ------------------- user serializer ------------------ #
 # ------------- just for override user data ------------ #
-class UserSerializers(UserSerializer):
+class UserSerializers(CustomModelSerializer, UserSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email", "is_admin", "role")
