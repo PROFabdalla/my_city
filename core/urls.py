@@ -29,8 +29,8 @@ urlpatterns = [
     path("dashboard/", include("dashboard.urls")),
     path("administrator/", include("site_admin.urls")),
     # --------------- social --------------------- #
-    path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
-    # path("accounts/", include("allauth.urls")),
+    # path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
+    path("accounts/", include("allauth.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -175,3 +175,15 @@ class CustomTokenCreateSerializers(TokenCreateSerializer):
             attrs["user"] = self.user
             return attrs
         self.fail("default_case")
+
+
+# ---------------------- social login user -------------------- #
+class SocialUserSerializers(CustomModelSerializer, UserSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "email", "is_active")
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep["token"] = self.context["token"]
+        return rep

@@ -58,10 +58,10 @@ INSTALLED_APPS = [
     "public_apps",
 ]
 
-SITE_ID = 2
+SITE_ID = 3
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/login/"
-SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_STORE_TOKENS = False
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

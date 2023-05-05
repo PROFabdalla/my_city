@@ -28,10 +28,10 @@ class OwnUserManager(BaseUserManager):
 
         # ---------------- relation creation ------------------- #
         company, created = Company.objects.get_or_create(
-            title="owner", owner=user, role="internal"
+            title="owner", owner=user, role="internal", active=True
         )
         employee, created = Employee.objects.get_or_create(
-            company=company, user=user, role="admin", position="admin"
+            company=company, user=user, role="admin", position="admin", active=True
         )
         permissions, created = Permissions.objects.get_or_create(
             employee=employee, company_admin=True

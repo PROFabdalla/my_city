@@ -1,5 +1,5 @@
-from allauth.socialaccount.signals import pre_social_login
-from django.contrib.auth import get_user_model, login
+from allauth.socialaccount.signals import pre_social_login, social_account_added
+from django.contrib.auth import login
 from django.dispatch.dispatcher import receiver
 from djoser.views import TokenCreateView, UserViewSet
 from knox.views import LoginView, LogoutAllView, LogoutView
@@ -11,9 +11,13 @@ from user_app.serializers.user import (
     CustomTokenCreateSerializers,
     CustomUserCreateAsEmployeeSerializer,
     CustomUserCreateCompanyAdminSerializer,
+    SocialUserSerializers,
 )
+from rest_framework import generics
+from user_app.models import User
+from rest_framework.permissions import IsAuthenticated
 
-User = get_user_model()
+from knox.models import AuthToken
 
 
 # ----------- user / register user ------------- #
@@ -80,11 +84,30 @@ class LogoutAllView(LogoutAllView):
 
 
 @receiver(pre_social_login)
-def email_confirmed_(request, sociallogin, **kwargs):
-    try:
-        user = sociallogin.user
+def email_confirmed(request, sociallogin, **kwargs):
+    user = sociallogin.user
+    if user.is_active == False:
         user.is_active = True
-        user.role = "Guest"
-        user.save()
-    except Exception as e:
-        raise serializers.ValidationError({"ERROR": e})
+        user.role = "citizen"
+
+
+class SocialLoginToken(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = SocialUserSerializers
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        data = self.request.data
+        user = data["email"]
+        queryset = User.objects.filter(email=user)
+        return queryset
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        data = self.request.data
+        email = data["email"]
+        user = User.objects.filter(email=email).first()
+        token = AuthToken.objects.create(user=user)
+        if token:
+            context["token"] = token[1]
+        return context
