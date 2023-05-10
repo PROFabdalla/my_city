@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     # APPS
     "user_app",
     "public_apps",
+    "chat_app",
 ]
 
 SITE_ID = 3
@@ -220,3 +221,19 @@ MODELTRANSLATION_FALLBACK_LANGUAGES = ("en", "ar")
 
 # ---------- HASHID_FIELD -------- #
 HASHID_FIELD_SALT = "c6@-kv()vl3o5ig#fwuw78q02g!cgsvl_xx!=$*#mh7bv4p@!-"
+
+
+import firebase_admin
+from firebase_admin import credentials
+
+# Path to your Firebase project credentials JSON file
+FIREBASE_CREDENTIALS = "D:/myPROJ/projects/my_city/data/my-city-7d1a2-firebase-adminsdk-cs2oc-805b7be44e.json"
+
+# Initialize Firebase SDK
+cred = credentials.Certificate(FIREBASE_CREDENTIALS)
+firebase_admin.initialize_app(
+    cred,
+    {
+        "databaseURL": "https://my-city-7d1a2-default-rtdb.europe-west1.firebasedatabase.app/"
+    },
+)

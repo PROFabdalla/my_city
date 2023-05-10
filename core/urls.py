@@ -28,6 +28,7 @@ urlpatterns = [
     path("api/", include("public_apps.urls")),
     path("dashboard/", include("dashboard.urls")),
     path("administrator/", include("site_admin.urls")),
+    path("chat/", include("chat_app.urls")),
     # --------------- social --------------------- #
     # path("inactive/", AccountInactiveView.as_view(), name="account_inactive"),
     path("accounts/", include("allauth.urls")),
